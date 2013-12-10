@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+
+	<package>de.zlvp.model</package>
+	<mapped-superclass class="AbstractEntity">
+		<attributes>
+			<id name="id" />
+			<version name="version" />
+		</attributes>
+	</mapped-superclass>
+
+	<mapped-superclass class="BaseEntity">
+		<attributes>
+			<basic name="bezeichnung" />
+		</attributes>
+	</mapped-superclass>
+
+	<entity class="Jahr">
+		<attributes>
+			<one-to-many name="lager" />
+		</attributes>
+	</entity>
+
+	<entity class="Lager">
+		<attributes>
+			<one-to-many name="gruppe" />
+			<one-to-many name="stab" />
+		</attributes>
+	</entity>
+
+	<entity class="Stab">
+		<attributes>
+			<many-to-one name="person" />
+		</attributes>
+	</entity>
+
+	<entity class="Gruppe">
+		<attributes>
+			<one-to-many name="leiter" />
+			<one-to-many name="teilnehmer" />
+		</attributes>
+	</entity>
+
+
+	<entity class="Leiter">
+		<attributes>
+			<many-to-one name="person" />
+		</attributes>
+	</entity>
+
+	<entity class="Teilnehmer">
+		<attributes>
+			<many-to-one name="person" />
+		</attributes>
+	</entity>
+
+	<entity class="Person">
+		<attributes>
+			<basic name="name" />
+			<basic name="vorname" />
+			<basic name="strasse" />
+			<basic name="plz" />
+			<basic name="ort" />
+			<basic name="geburtsdatum">
+				<temporal>DATE</temporal>
+			</basic>
+		</attributes>
+	</entity>
+</entity-mappings>
