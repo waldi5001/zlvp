@@ -1,24 +1,62 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>zlvp-web</artifactId>
-  <packaging>war</packaging>
-  <name>zlvp-web Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <build>
-    <finalName>zlvp-web</finalName>
-  </build>
-  <parent>
-  	<groupId>de.zlvp</groupId>
-  	<artifactId>zlvp-_moduleList</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>
-  </parent>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>zlvp-web</artifactId>
+	<packaging>war</packaging>
+	<name>zlvp-web</name>
+	<parent>
+		<groupId>de.zlvp</groupId>
+		<artifactId>zlvp-_moduleList</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../zlvp-_moduleList</relativePath>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>de.zlvp</groupId>
+			<artifactId>zlvp-ui</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.zlvp</groupId>
+			<artifactId>zlvp-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.zlvp</groupId>
+			<artifactId>zlvp-control-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>zlvp-web</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+					<execution>
+						<configuration>
+							<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+						</configuration>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- <logLevel>TRACE</logLevel> <draftCompile>false</draftCompile> <optimizationLevel>9</optimizationLevel> <runTarget>configmanager</runTarget> 
+						<style>OBFUSCATED</style> <module>de.wwag.vdz.basis.configmanager.ConfigManager</module> <localWorkers>1</localWorkers> <copyWebapp>true</copyWebapp> 
+						<extra>${webappDirectory}/WEB-INF/classes/</extra> -->
+
+					<compileSourcesArtifacts>
+						<compileSourcesArtifact>${project.groupId}:zlvp-ui</compileSourcesArtifact>
+						<compileSourcesArtifact>${project.groupId}:zlvp-model</compileSourcesArtifact>
+						<compileSourcesArtifact>${project.groupId}:zlvp-control</compileSourcesArtifact>
+					</compileSourcesArtifacts>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
