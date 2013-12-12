@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean class="org.springframework.web.servlet.handler.SimpleServletHandlerAdapter" />
+	<bean class="org.springframework.web.servlet.handler.SimpleServletPostProcessor" />
+
+	<bean name="/ZlvpController" class="com.google.gwt.user.server.rpc.RemoteServiceServlet">
+		<constructor-arg>
+			<bean class="org.springframework.aop.framework.ProxyFactoryBean">
+				<property name="interfaces" value="de.zlvp.server.ZlvpController" />
+				<property name="target" ref="zlvpController" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+</beans>
