@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
-	
-	<display-name>ZLVP-2</display-name>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
 
+	<display-name>ZLVP-2</display-name>
+	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
@@ -27,8 +25,19 @@
 
 	<servlet-mapping>
 		<servlet-name>services</servlet-name>
-		<url-pattern>/Zlvp/rpc/*</url-pattern>
+		<url-pattern>/zlvp/rpc/*</url-pattern>
 	</servlet-mapping>
+	
+	<persistence-unit-ref>
+        <persistence-unit-ref-name>persistence/zlvp</persistence-unit-ref-name>
+    </persistence-unit-ref>
+
+	<resource-ref>
+		<res-ref-name>jdbc/zlvp</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
 
 	<!-- Default page to serve -->
 	<welcome-file-list>

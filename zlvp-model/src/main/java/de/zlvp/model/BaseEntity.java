@@ -1,7 +1,8 @@
 package de.zlvp.model;
 
 public abstract class BaseEntity extends AbstractEntity {
-	
+	private static final long serialVersionUID = 1L;
+
 	private String bezeichnung;
 
 	public String getBezeichnung() {

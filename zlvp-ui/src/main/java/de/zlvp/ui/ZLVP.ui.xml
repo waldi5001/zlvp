@@ -1,0 +1,30 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+	xmlns:zlvp="urn:import:de.zlvp.ui" xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client">
+
+	<ui:with type="com.sencha.gxt.widget.core.client.container.MarginData" field="outerData" />
+
+	<ui:with type="com.sencha.gxt.core.client.util.Margins" field="westMargins">
+		<ui:attributes top="0" right="5" bottom="0" left="5" />
+	</ui:with>
+
+	<ui:with type="com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData" field="westData">
+		<ui:attributes size="200" margins="{westMargins}" collapsible="true" split="true" />
+	</ui:with>
+
+	<container:SimpleContainer>
+		<container:child layoutData="{outerData}">
+			<container:BorderLayoutContainer borders="true">
+				<container:west layoutData="{westData}">
+					<zlvp:NavigationTree ui:field="tree"/>
+				</container:west>
+				<container:center>
+					<container:SimpleContainer ui:field="centerContainer" />
+				</container:center>
+			</container:BorderLayoutContainer>
+		</container:child>
+	</container:SimpleContainer>
+
+	<!-- <container:SimpleContainer> <container:child> <zlvp:NavigationTree /> </container:child> </container:SimpleContainer> -->
+
+</ui:UiBinder>

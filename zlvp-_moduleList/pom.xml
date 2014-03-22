@@ -7,13 +7,135 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>../zlvp-model</module>
-		<module>../zlvp-server</module>
+		<module>../zlvp-control</module>
 		<module>../zlvp-ui</module>
 		<module>../zlvp-web</module>
+		<module>../zlvp-control-impl</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.hibernate>4.2.8.Final</version.hibernate>
+		<version.gxt>3.0.1</version.gxt>
+		<version.gwt>2.5.1</version.gwt>
+		<version.spring>3.2.0.RELEASE</version.spring>
+		<version.hsql>2.3.1</version.hsql>
+		<version.postgres>9.1-901.jdbc4</version.postgres>
+		<version.spring.data>1.4.3.RELEASE</version.spring.data>
+		<version.slf4j>1.6.4</version.slf4j>
+		<version.logback>1.0.1</version.logback>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${version.hibernate}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sencha.gxt</groupId>
+				<artifactId>gxt</artifactId>
+				<version>${version.gxt}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-user</artifactId>
+				<version>${version.gwt}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-dev</artifactId>
+				<version>${version.gwt}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt-servlet</artifactId>
+				<version>${version.gwt}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${version.spring.data}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>${version.hsql}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${version.postgres}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-dbcp</groupId>
+				<artifactId>commons-dbcp</artifactId>
+				<version>1.4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${version.slf4j}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${version.logback}</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${version.logback}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>1.7.5</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+	<repositories>
+		<repository>
+			<id>hibernate</id>
+			<url>https://repository.jboss.org/nexus/</url>
+		</repository>
+		<repository>
+			<id>spring</id>
+			<url>http://repo.spring.io/libs-release-remote</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -21,8 +143,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>

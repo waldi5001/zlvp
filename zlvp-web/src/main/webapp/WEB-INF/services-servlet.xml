@@ -9,8 +9,17 @@
 	<bean name="/ZlvpController" class="com.google.gwt.user.server.rpc.RemoteServiceServlet">
 		<constructor-arg>
 			<bean class="org.springframework.aop.framework.ProxyFactoryBean">
-				<property name="interfaces" value="de.zlvp.server.ZlvpController" />
+				<property name="interfaces" value="de.zlvp.control.ZlvpController" />
 				<property name="target" ref="zlvpController" />
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="/PersonController" class="com.google.gwt.user.server.rpc.RemoteServiceServlet">
+		<constructor-arg>
+			<bean class="org.springframework.aop.framework.ProxyFactoryBean">
+				<property name="interfaces" value="de.zlvp.control.PersonController" />
+				<property name="target" ref="personController" />
 			</bean>
 		</constructor-arg>
 	</bean>

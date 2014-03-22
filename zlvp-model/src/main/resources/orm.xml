@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-mappings version="2.1"
-	xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+<entity-mappings version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm /home/fk/Workspaces/zlvp/zlvp-model/src/main/resources/orm_2_1.xsd">
+	
+	<!-- http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd -->
 
 	<package>de.zlvp.model</package>
 	<mapped-superclass class="AbstractEntity">
 		<attributes>
-			<id name="id" />
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
 			<version name="version" />
 		</attributes>
 	</mapped-superclass>
@@ -19,40 +22,77 @@
 
 	<entity class="Jahr">
 		<attributes>
-			<one-to-many name="lager" />
+			<one-to-many name="lager">
+				<cascade>
+					<cascade-persist />
+				</cascade>
+			</one-to-many>
 		</attributes>
 	</entity>
 
 	<entity class="Lager">
 		<attributes>
-			<one-to-many name="gruppe" />
-			<one-to-many name="stab" />
+			<one-to-many name="gruppe">
+				<cascade>
+					<cascade-persist />
+				</cascade>
+			</one-to-many>
+			<one-to-many name="stab">
+				<cascade>
+					<cascade-persist />
+				</cascade>
+			</one-to-many>
 		</attributes>
 	</entity>
 
 	<entity class="Stab">
 		<attributes>
-			<many-to-one name="person" />
+			<basic name="funktion">
+				<enumerated>ORDINAL</enumerated>
+			</basic>
+			<many-to-one name="person">
+				<cascade>
+					<cascade-persist />
+				</cascade>
+			</many-to-one>
 		</attributes>
 	</entity>
 
 	<entity class="Gruppe">
 		<attributes>
-			<one-to-many name="leiter" />
-			<one-to-many name="teilnehmer" />
+			<one-to-many name="leiter">
+				<cascade>
+					<cascade-persist />
+				</cascade>
+			</one-to-many>
+			<one-to-many name="teilnehmer">
+				<cascade>
+					<cascade-persist />
+				</cascade>
+			</one-to-many>
 		</attributes>
 	</entity>
 
 
 	<entity class="Leiter">
 		<attributes>
-			<many-to-one name="person" />
+			<many-to-one name="gruppe" />
+			<many-to-one name="person">
+				<cascade>
+					<cascade-persist />
+				</cascade>
+			</many-to-one>
 		</attributes>
 	</entity>
 
 	<entity class="Teilnehmer">
 		<attributes>
-			<many-to-one name="person" />
+			<many-to-one name="gruppe" />
+			<many-to-one name="person">
+				<cascade>
+					<cascade-persist />
+				</cascade>
+			</many-to-one>
 		</attributes>
 	</entity>
 

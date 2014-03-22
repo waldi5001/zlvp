@@ -3,6 +3,7 @@ package de.zlvp.model;
 import java.util.Date;
 
 public class Person extends AbstractEntity {
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String vorname;

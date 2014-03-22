@@ -8,6 +8,9 @@
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
 		<config>src/main/resources/control-impl.xml</config>
+		<config>src/main/resources/boot-ctx.xml</config>
+		<config>src/main/resources/test-ctx.xml</config>
+		<config>src/main/resources/shared-ctx.xml</config>
 	</configs>
 	<configSets>
 	</configSets>

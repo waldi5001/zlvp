@@ -12,7 +12,7 @@ public class ZlvpControllerImpl implements ZlvpController {
 
 	@Override
 	public List<Jahr> getJahre() {
-		return null;
+		return dao.findAllOrderByBezeichnungDesc();
 	}
 
 	@Override
