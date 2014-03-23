@@ -1,5 +1,7 @@
 package de.zlvp.test;
 
+import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -31,10 +33,15 @@ public class TestdataControllerImpl implements TestdataController {
 		s.setFunktion(Funktion.Fahrer);
 
 		Person p = new Person();
-		p.setName("Kerjke");
+		p.setName("Person 0");
 
 		Person p1 = new Person();
 		p1.setName("Kerjke");
+		p1.setVorname("Vorname");
+		p1.setStrasse("Strasse");
+		p1.setPlz("78199");
+		p1.setOrt("Mistelbrunn");
+		p1.setGeburtsdatum(new Date());
 
 		Person p2 = new Person();
 		p2.setName("Kerjke");

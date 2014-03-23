@@ -7,29 +7,25 @@ import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.PropertyAccess;
 
-import de.zlvp.model.Person;
+import de.zlvp.ui.gruppe.PersonGrid.PersonUi;
+import de.zlvp.ui.gruppe.PersonGrid.Role;
 
-public interface PersonProperties extends PropertyAccess<Person> {
+public interface PersonProperties extends PropertyAccess<PersonUi> {
 
 	@Path("id")
-	ModelKeyProvider<Person> key();
+	ModelKeyProvider<PersonUi> key();
 
-	@Path("name")
-	ValueProvider<Person, String> name();
+	ValueProvider<PersonUi, String> name();
 
-	@Path("vorname")
-	ValueProvider<Person, String> vorname();
+	ValueProvider<PersonUi, String> vorname();
 
-	@Path("strasse")
-	ValueProvider<Person, String> strasse();
+	ValueProvider<PersonUi, String> strasse();
 
-	@Path("plz")
-	ValueProvider<Person, String> plz();
+	ValueProvider<PersonUi, String> plz();
 
-	@Path("ort")
-	ValueProvider<Person, String> ort();
+	ValueProvider<PersonUi, String> ort();
 
-	@Path("geburtsdatum")
-	ValueProvider<Person, Date> geburtsdatum();
+	ValueProvider<PersonUi, Date> geburtsdatum();
 
+	ValueProvider<PersonUi, Role> role();
 }

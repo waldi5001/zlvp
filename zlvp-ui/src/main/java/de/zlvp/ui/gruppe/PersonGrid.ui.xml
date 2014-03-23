@@ -5,9 +5,8 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:tb="urn:import:com.sencha.gxt.widget.core.client.toolbar"
 	xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid">
 
-
 	<ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnConfig" field="name">
-		<ui:attribute name="header" header="Nachname" />
+		<ui:attribute name="name" width="0.5" />
 	</ui:with>
 	<ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnConfig" field="vorname">
 		<ui:attribute name="vorname" header="Vorname" />
@@ -24,10 +23,17 @@
 	<ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnConfig" field="geburtsdatum">
 		<ui:attribute name="geburtsdatum" header="Geburtsdatum" />
 	</ui:with>
+	<ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnConfig" field="role">
+		<ui:attribute name="role" header="Rolle" />
+	</ui:with>
 
 	<ui:with type="com.sencha.gxt.widget.core.client.grid.ColumnModel" field="cm" />
 	<ui:with type="com.sencha.gxt.data.shared.ListStore" field="store" />
 	<ui:with type="com.sencha.gxt.data.shared.loader.PagingLoader" field="loader" />
+
+	<ui:with type="com.sencha.gxt.widget.core.client.grid.filters.GridFilters" field="filters">
+		<ui:attributes local="true" />
+	</ui:with>
 
 	<ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="gridLayoutData">
 		<ui:attributes width="1" height="1" />
@@ -41,18 +47,21 @@
 		<ui:attributes showGroupedColumn="false" forceFit="true" />
 	</ui:with>
 
-	<c:FramedPanel ui:field="panel" width="-1" height="800" collapsible="true" addStyleNames="margin-10">
-		<container:VerticalLayoutContainer borders="true">
-			<container:child layoutData="{gridLayoutData}">
-				<grid:Grid ui:field="grid" cm="{cm}" store="{store}" view="{view}" loader="{loader}" loadMask="true"
-					columnReordering="true" borders="false">
-				</grid:Grid>
-			</container:child>
-			<container:child layoutData="{toolBarLayoutData}">
-				<toolbar:PagingToolBar pageSize="50" ui:field="toolBar"></toolbar:PagingToolBar>
-			</container:child>
-		</container:VerticalLayoutContainer>
-	</c:FramedPanel>
+	<container:VerticalLayoutContainer borders="true">
+		<container:child layoutData="{gridLayoutData}">
+			<grid:Grid ui:field="grid" cm="{cm}" store="{store}" view="{view}" loader="{loader}" loadMask="true"
+				columnReordering="true" borders="false">
+			</grid:Grid>
+		</container:child>
+		<container:child layoutData="{toolBarLayoutData}">
+			<toolbar:PagingToolBar pageSize="50" ui:field="toolBar"></toolbar:PagingToolBar>
+		</container:child>
+	</container:VerticalLayoutContainer>
 
+	<!-- <c:FramedPanel ui:field="panel" width="-1" height="800" collapsible="true" addStyleNames="margin-10"> <container:VerticalLayoutContainer 
+		borders="true"> <container:child layoutData="{gridLayoutData}"> <grid:Grid ui:field="grid" cm="{cm}" store="{store}" view="{view}" 
+		loader="{loader}" loadMask="true" columnReordering="true" borders="false"> </grid:Grid> </container:child> <container:child 
+		layoutData="{toolBarLayoutData}"> <toolbar:PagingToolBar pageSize="50" ui:field="toolBar"></toolbar:PagingToolBar> </container:child> 
+		</container:VerticalLayoutContainer> </c:FramedPanel> -->
 
 </ui:UiBinder>
