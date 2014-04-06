@@ -1,0 +1,20 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:c="urn:import:com.sencha.gxt.widget.core.client" xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+	xmlns:gruppe="urn:import:de.zlvp.ui.gruppe" xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form">
+
+	<ui:with type="com.sencha.gxt.widget.core.client.TabItemConfig" field="gruppeConfig">
+		<ui:attributes text="Gruppe" />
+	</ui:with>
+
+	<container:SimpleContainer borders="true">
+		<c:TabPanel ui:field="allgemein">
+			<c:child config="{gruppeConfig}">
+				<c:FramedPanel>
+					<gruppe:Mitglieder ui:field="mitglieder" />
+				</c:FramedPanel>
+			</c:child>
+		</c:TabPanel>
+	</container:SimpleContainer>
+
+</ui:UiBinder>

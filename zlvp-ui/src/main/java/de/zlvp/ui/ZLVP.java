@@ -18,12 +18,14 @@ import com.sencha.gxt.widget.core.client.container.Viewport;
 
 import de.zlvp.control.PersonController;
 import de.zlvp.control.PersonControllerAsync;
+import de.zlvp.model.Gruppe;
 import de.zlvp.model.Person;
 import de.zlvp.ui.bus.GruppeEditierenEvent;
 import de.zlvp.ui.bus.GruppeEditierenEventHandler;
 import de.zlvp.ui.bus.PersonAendernEvent;
 import de.zlvp.ui.bus.PersonAendernEventHandler;
 import de.zlvp.ui.bus.ZlvpEventBus;
+import de.zlvp.ui.gruppe.EigenschaftenDialog;
 import de.zlvp.ui.gruppe.GruppeUi;
 import de.zlvp.ui.person.PersonGrid;
 
@@ -59,9 +61,14 @@ public class ZLVP implements EntryPoint, IsWidget {
 		ZlvpEventBus.get().addHandler(GruppeEditierenEvent.getType(), new GruppeEditierenEventHandler() {
 			@Override
 			public void editiereGruppe(GruppeEditierenEvent event) {
-				GruppeUi g = new GruppeUi();
-				g.setGruppe(event.getGruppe());
+				Gruppe gruppe = event.getGruppe();
+				GruppeUi g = GWT.create(GruppeUi.class);
+				g.setGruppe(gruppe);
 				Widget widget = g.asWidget();
+
+				EigenschaftenDialog create = GWT.create(EigenschaftenDialog.class);
+				create.asWidget();
+				create.edit(gruppe);
 
 				centerContainer.setWidget(widget);
 				centerContainer.forceLayout();

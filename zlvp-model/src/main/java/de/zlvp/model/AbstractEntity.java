@@ -27,7 +27,7 @@ public abstract class AbstractEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return getClass() + ": " + id;
+		return getClass() + ": Id: " + id + " Version: " + version;
 	}
 
 }

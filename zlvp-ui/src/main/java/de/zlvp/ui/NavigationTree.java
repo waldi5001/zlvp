@@ -12,6 +12,9 @@ import com.sencha.gxt.core.client.ValueProvider;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.TreeStore;
 import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.event.BeforeShowContextMenuEvent;
+import com.sencha.gxt.widget.core.client.event.BeforeShowContextMenuEvent.BeforeShowContextMenuHandler;
+import com.sencha.gxt.widget.core.client.menu.Menu;
 import com.sencha.gxt.widget.core.client.tree.Tree;
 import com.sencha.gxt.widget.core.client.tree.TreeSelectionModel;
 
@@ -26,9 +29,9 @@ import de.zlvp.model.Person;
 import de.zlvp.model.Stab;
 import de.zlvp.model.Teilnehmer;
 import de.zlvp.ui.bus.GruppeEditierenEvent;
-import de.zlvp.ui.bus.NavigationTreeEventHandler;
 import de.zlvp.ui.bus.PersonAendernEvent;
 import de.zlvp.ui.bus.ReloadTreeEvent;
+import de.zlvp.ui.bus.ReloadTreeEventHandler;
 import de.zlvp.ui.bus.ZlvpEventBus;
 
 public class NavigationTree extends ContentPanel {
@@ -104,14 +107,26 @@ public class NavigationTree extends ContentPanel {
 	Tree<Object, String> tree;
 
 	public NavigationTree() {
-		ZlvpEventBus.get().addHandler(ReloadTreeEvent.getType(), new NavigationTreeEventHandler() {
+
+		ZlvpEventBus.get().addHandler(ReloadTreeEvent.getType(), new ReloadTreeEventHandler() {
 			@Override
 			public void reloadTree() {
 				reload();
 			}
 		});
+
 		add(uiBinder.createAndBindUi(this));
+
 		reload();
+
+		tree.setContextMenu(new Menu());
+
+		tree.addBeforeShowContextMenuHandler(new BeforeShowContextMenuHandler() {
+			@Override
+			public void onBeforeShowContextMenu(BeforeShowContextMenuEvent event) {
+				tree.setContextMenu(event.getMenu());
+			}
+		});
 	}
 
 	public void reload() {

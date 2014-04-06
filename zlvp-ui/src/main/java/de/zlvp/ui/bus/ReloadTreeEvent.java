@@ -2,20 +2,20 @@ package de.zlvp.ui.bus;
 
 import com.google.gwt.event.shared.GwtEvent;
 
-public class ReloadTreeEvent extends GwtEvent<NavigationTreeEventHandler> {
-	private static final GwtEvent.Type<NavigationTreeEventHandler> TYPE = new GwtEvent.Type<NavigationTreeEventHandler>();
+public class ReloadTreeEvent extends GwtEvent<ReloadTreeEventHandler> {
+	private static final GwtEvent.Type<ReloadTreeEventHandler> TYPE = new GwtEvent.Type<ReloadTreeEventHandler>();
 
-	public static GwtEvent.Type<NavigationTreeEventHandler> getType() {
+	public static GwtEvent.Type<ReloadTreeEventHandler> getType() {
 		return TYPE;
 	}
 
 	@Override
-	protected void dispatch(NavigationTreeEventHandler handler) {
+	protected void dispatch(ReloadTreeEventHandler handler) {
 		handler.reloadTree();
 	}
 
 	@Override
-	public GwtEvent.Type<NavigationTreeEventHandler> getAssociatedType() {
+	public GwtEvent.Type<ReloadTreeEventHandler> getAssociatedType() {
 		return getType();
 	}
 

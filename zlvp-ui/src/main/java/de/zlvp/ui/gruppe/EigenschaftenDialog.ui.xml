@@ -1,0 +1,37 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:c="urn:import:com.sencha.gxt.widget.core.client" xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+	xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form" xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button">
+
+	<ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="standardLayoutData">
+		<ui:attributes width="1" height="-1" />
+	</ui:with>
+
+	<ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="schlachtrufLayoutData">
+		<ui:attributes width="1" height="100" />
+	</ui:with>
+	
+	<c:Window ui:field="window" pixelSize="500, 200" modal="true" blinkModal="true" headingText="Eigenschaft von Gruppe"
+		focusWidget="{closeButton}">
+		<container:VerticalLayoutContainer>
+			<container:child layoutData="{standardLayoutData}">
+				<form:FieldLabel text="Name">
+					<form:widget>
+						<form:TextField ui:field="bezeichnung" allowBlank="false" emptyText="Gruppenname eingeben" />
+					</form:widget>
+				</form:FieldLabel>
+			</container:child>
+			<container:child layoutData="{schlachtrufLayoutData}">
+				<form:FieldLabel text="Schlachtruf">
+					<form:widget>
+						<form:TextArea ui:field="schlachtruf" allowBlank="false" />
+					</form:widget>
+				</form:FieldLabel>
+			</container:child>
+		</container:VerticalLayoutContainer>
+		<c:button>
+			<button:TextButton ui:field="closeButton" text="Schließen" />
+		</c:button>
+	</c:Window>
+
+</ui:UiBinder>

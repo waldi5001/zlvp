@@ -13,4 +13,9 @@ public abstract class BaseEntity extends AbstractEntity {
 		this.bezeichnung = bezeichnung;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + " Bezeichnung: " + bezeichnung;
+	}
+
 }

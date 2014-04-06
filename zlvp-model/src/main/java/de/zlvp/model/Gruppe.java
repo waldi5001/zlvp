@@ -5,6 +5,9 @@ import java.util.Set;
 
 public class Gruppe extends BaseEntity {
 	private static final long serialVersionUID = 1L;
+
+	private String schlachtruf;
+
 	private Set<Leiter> leiter;
 	private Set<Teilnehmer> teilnehmer;
 
@@ -28,6 +31,14 @@ public class Gruppe extends BaseEntity {
 
 	public void setTeilnehmer(Set<Teilnehmer> teilnehmer) {
 		this.teilnehmer = teilnehmer;
+	}
+
+	public String getSchlachtruf() {
+		return schlachtruf;
+	}
+
+	public void setSchlachtruf(String schlachtruf) {
+		this.schlachtruf = schlachtruf;
 	}
 
 }
