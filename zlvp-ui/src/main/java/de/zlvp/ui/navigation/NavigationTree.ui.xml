@@ -8,7 +8,7 @@
 	<ui:with type="com.sencha.gxt.widget.core.client.tree.TreeSelectionModel" field="selectionModel" />
 
 	<container:FlowLayoutContainer>
-		<tree:Tree ui:field="tree" width="300" valueProvider="{valueProvider}" store="{store}" selectionModel="{selectionModel}">
+		<tree:Tree ui:field="tree" width="300" valueProvider="{valueProvider}" store="{store}" >
 		</tree:Tree>
 	</container:FlowLayoutContainer>
 

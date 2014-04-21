@@ -135,6 +135,10 @@
 			<id>spring</id>
 			<url>http://repo.spring.io/libs-release-remote</url>
 		</repository>
+		<repository>
+			<id>Sencha Maven Repository</id>
+			<url>https://maven.sencha.com/repo/gxt-gpl-release</url>
+		</repository>
 	</repositories>
 	<build>
 		<plugins>

@@ -7,8 +7,9 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 import de.zlvp.model.Gruppe;
+import de.zlvp.ui.IsTreeChildren;
 
-public class GruppeUi implements IsWidget {
+public class GruppeTabPanel implements IsWidget, IsTreeChildren {
 
 	private Gruppe gruppe;
 
@@ -17,10 +18,7 @@ public class GruppeUi implements IsWidget {
 
 	private static GruppeUiBinder uiBinder = GWT.create(GruppeUiBinder.class);
 
-	interface GruppeUiBinder extends UiBinder<Widget, GruppeUi> {
-	}
-
-	public GruppeUi() {
+	interface GruppeUiBinder extends UiBinder<Widget, GruppeTabPanel> {
 	}
 
 	@Override
@@ -34,6 +32,12 @@ public class GruppeUi implements IsWidget {
 
 	public void setGruppe(Gruppe g) {
 		this.gruppe = g;
+	}
+
+	@Override
+	public Widget show(Object selectedItem) {
+		setGruppe((Gruppe) selectedItem);
+		return asWidget();
 	}
 
 }

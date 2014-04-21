@@ -1,4 +1,4 @@
-package de.zlvp.ui.gruppe;
+package de.zlvp.ui.person;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,46 +11,44 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.widget.core.client.Window;
 import com.sencha.gxt.widget.core.client.event.SelectEvent;
-import com.sencha.gxt.widget.core.client.form.TextArea;
 import com.sencha.gxt.widget.core.client.form.TextField;
 import com.sencha.gxt.widget.core.client.menu.Item;
 import com.sencha.gxt.widget.core.client.menu.MenuItem;
 
-import de.zlvp.control.GruppeController;
-import de.zlvp.control.GruppeControllerAsync;
-import de.zlvp.control.dto.EntityInfo;
-import de.zlvp.model.AbstractEntity;
-import de.zlvp.model.Gruppe;
+import de.zlvp.model.Person;
 import de.zlvp.ui.ProvideTreeContextMenuItems;
-import de.zlvp.ui.bus.ReloadTreeEvent;
-import de.zlvp.ui.bus.ZlvpEventBus;
-import de.zlvp.ui.navigation.NavigationTree.TreeNode;
 
-public class EigenschaftenDialog implements Editor<Gruppe>, ProvideTreeContextMenuItems {
+public class PersonDialog implements Editor<Person>, ProvideTreeContextMenuItems {
 
 	private static final EigenschaftenDialogUiBinder uiBinder = GWT.create(EigenschaftenDialogUiBinder.class);
-	private static final GruppeDriver driver = GWT.create(GruppeDriver.class);
+	private static final PersonDriver driver = GWT.create(PersonDriver.class);
 
-	private static final GruppeControllerAsync controller = GWT.create(GruppeController.class);
-
-	interface EigenschaftenDialogUiBinder extends UiBinder<Widget, EigenschaftenDialog> {
+	interface EigenschaftenDialogUiBinder extends UiBinder<Widget, PersonDialog> {
 	}
 
-	interface GruppeDriver extends SimpleBeanEditorDriver<Gruppe, EigenschaftenDialog> {
+	interface PersonDriver extends SimpleBeanEditorDriver<Person, PersonDialog> {
 	}
 
 	@UiField
 	Window window;
 
 	@UiField
-	TextField bezeichnung;
+	TextField name;
 
 	@UiField
-	TextArea schlachtruf;
+	TextField vorname;
+
+	@UiField
+	TextField strasse;
+
+	@UiField
+	TextField plz;
+
+	@UiField
+	TextField ort;
 
 	public void show() {
 		uiBinder.createAndBindUi(this);
@@ -58,25 +56,14 @@ public class EigenschaftenDialog implements Editor<Gruppe>, ProvideTreeContextMe
 		window.show();
 	}
 
-	public void edit(Gruppe person) {
+	public void edit(Person person) {
 		driver.edit(person);
 	}
 
 	@UiHandler("closeButton")
 	public void onClose(SelectEvent event) {
-		Gruppe gruppe = driver.flush();
-		controller.speichern(EntityInfo.of(gruppe), gruppe.getBezeichnung(), gruppe.getSchlachtruf(),
-				new AsyncCallback<Void>() {
-					@Override
-					public void onSuccess(Void result) {
-						ZlvpEventBus.get().fireEvent(new ReloadTreeEvent());
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-					}
-				});
-
+		Person person = driver.flush();
+		System.out.println(person);
 		window.hide();
 	}
 
@@ -87,8 +74,7 @@ public class EigenschaftenDialog implements Editor<Gruppe>, ProvideTreeContextMe
 			@Override
 			public void onSelection(SelectionEvent<Item> event) {
 				show();
-				AbstractEntity parent = ((TreeNode) selectedItem).getParent();
-				edit((Gruppe) parent);
+				edit((Person) selectedItem);
 			}
 		});
 		return Arrays.asList(menuItem);

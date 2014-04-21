@@ -3,6 +3,7 @@ package de.zlvp.ui.person;
 import java.util.Date;
 import java.util.List;
 
+import com.sencha.gxt.dnd.core.client.GridDragSource;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.filters.DateFilter;
 import com.sencha.gxt.widget.core.client.grid.filters.GridFilters;
@@ -50,4 +51,11 @@ public class PersonGrid extends AbstractPersonGrid {
 		this.persons = person;
 		load();
 	}
+
+	@Override
+	protected void initDnD() {
+		GridDragSource<PersonUi> gridDragSource = new GridDragSource<PersonUi>(grid);
+		gridDragSource.setGroup("gruppe");
+	}
+
 }

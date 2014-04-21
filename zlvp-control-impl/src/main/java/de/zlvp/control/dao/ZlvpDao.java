@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import de.zlvp.model.Jahr;
 
 public interface ZlvpDao extends CrudRepository<Jahr, Long> {
-	@Query("SELECT j FROM Jahr j "
+	@Query("SELECT DISTINCT j FROM Jahr j "
 			+ "LEFT JOIN FETCH j.lager l "
 			+ "LEFT JOIN FETCH l.gruppe g "
 			+ "LEFT JOIN FETCH g.teilnehmer t "

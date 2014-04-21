@@ -1,0 +1,58 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:c="urn:import:com.sencha.gxt.widget.core.client" xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+	xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form" xmlns:button="urn:import:com.sencha.gxt.widget.core.client.button">
+
+	<ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="standardLayoutData">
+		<ui:attributes width="1" height="-1" />
+	</ui:with>
+
+	<ui:with type="com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData" field="schlachtrufLayoutData">
+		<ui:attributes width="1" height="100" />
+	</ui:with>
+
+	<c:Window ui:field="window" pixelSize="500, 300" modal="true" blinkModal="true" headingText="Eigenschaft von Person"
+		focusWidget="{closeButton}">
+		<container:VerticalLayoutContainer>
+			<container:child layoutData="{standardLayoutData}">
+				<form:FieldLabel text="Nachname">
+					<form:widget>
+						<form:TextField ui:field="name" allowBlank="false" />
+					</form:widget>
+				</form:FieldLabel>
+			</container:child>
+			<container:child layoutData="{standardLayoutData}">
+				<form:FieldLabel text="Vorname">
+					<form:widget>
+						<form:TextField ui:field="vorname" allowBlank="false" />
+					</form:widget>
+				</form:FieldLabel>
+			</container:child>
+			<container:child layoutData="{standardLayoutData}">
+				<form:FieldLabel text="Strasse">
+					<form:widget>
+						<form:TextField ui:field="strasse" allowBlank="false" />
+					</form:widget>
+				</form:FieldLabel>
+			</container:child>
+			<container:child layoutData="{standardLayoutData}">
+				<form:FieldLabel text="PLZ">
+					<form:widget>
+						<form:TextField ui:field="plz" allowBlank="false" />
+					</form:widget>
+				</form:FieldLabel>
+			</container:child>
+			<container:child layoutData="{standardLayoutData}">
+				<form:FieldLabel text="Ort">
+					<form:widget>
+						<form:TextField ui:field="ort" allowBlank="false" />
+					</form:widget>
+				</form:FieldLabel>
+			</container:child>
+		</container:VerticalLayoutContainer>
+		<c:button>
+			<button:TextButton ui:field="closeButton" text="Schließen" />
+		</c:button>
+	</c:Window>
+
+</ui:UiBinder>

@@ -23,5 +23,14 @@
 			</bean>
 		</constructor-arg>
 	</bean>
+	
+	<bean name="/GruppeController" class="com.google.gwt.user.server.rpc.RemoteServiceServlet">
+		<constructor-arg>
+			<bean class="org.springframework.aop.framework.ProxyFactoryBean">
+				<property name="interfaces" value="de.zlvp.control.GruppeController" />
+				<property name="target" ref="gruppeController" />
+			</bean>
+		</constructor-arg>
+	</bean>
 
 </beans>

@@ -27,7 +27,17 @@ public abstract class AbstractEntity implements Serializable {
 
 	@Override
 	public String toString() {
-		return getClass() + ": Id: " + id + " Version: " + version;
+		return getClass() + ": Id: " + id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof AbstractEntity) {
+			AbstractEntity ae = (AbstractEntity) obj;
+			return id == ae.id && version == ae.version;
+		} else {
+			return false;
+		}
 	}
 
 }

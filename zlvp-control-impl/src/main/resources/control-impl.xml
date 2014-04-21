@@ -14,6 +14,11 @@
 	<bean id="personController" class="de.zlvp.control.impl.PersonControllerImpl">
 		<property name="dao" ref="personDao" />
 	</bean>
+	
+	<bean id="gruppeController" class="de.zlvp.control.impl.GruppeControllerImpl">
+		<property name="dao" ref="gruppeDao" />
+		<property name="personDao" ref="personDao" />
+	</bean>
 
 
 </beans>
