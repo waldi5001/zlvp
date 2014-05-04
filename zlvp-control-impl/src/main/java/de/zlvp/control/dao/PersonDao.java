@@ -4,8 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import de.zlvp.model.Person;
 
-public interface PersonDao extends CrudRepository<Person, Long> {
-
-	Person findByIdAndVersion(Long ids, Long versions);
+public interface PersonDao extends BaseDao<Person>, CrudRepository<Person, Long> {
 
 }

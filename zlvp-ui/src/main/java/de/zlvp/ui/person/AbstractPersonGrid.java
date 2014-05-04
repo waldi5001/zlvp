@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
@@ -29,8 +30,35 @@ import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import de.zlvp.model.Person;
 
 public abstract class AbstractPersonGrid implements IsWidget {
-	private final MemoryProxy<PagingLoadConfig, PagingLoadResult<PersonUi>> proxy = new MemoryProxy<PagingLoadConfig, PagingLoadResult<PersonUi>>(
-			null);
+
+	private static class PagingMemoryProxy<D> extends MemoryProxy<PagingLoadConfig, PagingLoadResult<D>> {
+
+		List<D> all = null;
+
+		public PagingMemoryProxy(PagingLoadResult<D> data) {
+			super(data);
+		}
+
+		@Override
+		public void load(final PagingLoadConfig loadConfig, Callback<PagingLoadResult<D>, Throwable> callback) {
+			if (all == null) {
+				all = getData().getData();
+			}
+
+			int toIndex = loadConfig.getOffset() + loadConfig.getLimit();
+			if (toIndex > all.size()) {
+				toIndex = all.size();
+			}
+			List<D> subList = all.subList(loadConfig.getOffset(), toIndex);
+			setData(new PagingLoadResultBean<D>(subList, all.size(), loadConfig.getOffset()));
+
+			super.load(loadConfig, callback);
+		}
+	}
+
+	private final MemoryProxy<PagingLoadConfig, PagingLoadResult<PersonUi>> proxy = new PagingMemoryProxy<PersonUi>(
+			null) {
+	};
 
 	private static PersonGridUiBinder uiBinder = GWT.create(PersonGridUiBinder.class);
 

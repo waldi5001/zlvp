@@ -18,13 +18,22 @@ import com.sencha.gxt.widget.core.client.form.TextField;
 import com.sencha.gxt.widget.core.client.menu.Item;
 import com.sencha.gxt.widget.core.client.menu.MenuItem;
 
+import de.zlvp.control.PersonControllerAsync;
+import de.zlvp.control.dto.EntityInfo;
 import de.zlvp.model.Person;
+import de.zlvp.ui.ControllerFactory;
+import de.zlvp.ui.DefaultAsyncCallback;
 import de.zlvp.ui.ProvideTreeContextMenuItems;
+import de.zlvp.ui.bus.ReloadTreeEvent;
+import de.zlvp.ui.bus.ZlvpEventBus;
+import de.zlvp.ui.navigation.NavigationTree.TreeNode;
 
 public class PersonDialog implements Editor<Person>, ProvideTreeContextMenuItems {
 
 	private static final EigenschaftenDialogUiBinder uiBinder = GWT.create(EigenschaftenDialogUiBinder.class);
 	private static final PersonDriver driver = GWT.create(PersonDriver.class);
+
+	private static final PersonControllerAsync controller = ControllerFactory.getPersonController();
 
 	interface EigenschaftenDialogUiBinder extends UiBinder<Widget, PersonDialog> {
 	}
@@ -63,7 +72,13 @@ public class PersonDialog implements Editor<Person>, ProvideTreeContextMenuItems
 	@UiHandler("closeButton")
 	public void onClose(SelectEvent event) {
 		Person person = driver.flush();
-		System.out.println(person);
+		controller.save(EntityInfo.of(person), person.getName(), person.getVorname(), person.getStrasse(),
+				person.getPlz(), person.getOrt(), person.getGeburtsdatum(), new DefaultAsyncCallback<Void>() {
+					@Override
+					public void onSuccess(Void result) {
+						ZlvpEventBus.get().fireEvent(new ReloadTreeEvent());
+					}
+				});
 		window.hide();
 	}
 
@@ -74,7 +89,7 @@ public class PersonDialog implements Editor<Person>, ProvideTreeContextMenuItems
 			@Override
 			public void onSelection(SelectionEvent<Item> event) {
 				show();
-				edit((Person) selectedItem);
+				edit((Person) ((TreeNode) selectedItem).getParent());
 			}
 		});
 		return Arrays.asList(menuItem);

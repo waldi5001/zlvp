@@ -60,4 +60,12 @@ public class EntityInfo<T extends AbstractEntity> implements Serializable {
 		}
 		return pl;
 	}
+
+	public static <T extends AbstractEntity> Collection<Long> getIds(Collection<EntityInfo<T>> infos) {
+		Set<Long> result = new HashSet<Long>();
+		for (EntityInfo<T> ei : infos) {
+			result.add(ei.getId());
+		}
+		return result;
+	}
 }

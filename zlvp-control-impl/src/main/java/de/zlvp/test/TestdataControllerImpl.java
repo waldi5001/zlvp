@@ -81,7 +81,7 @@ public class TestdataControllerImpl implements TestdataController {
 
 		l.getStab().add(s);
 
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 300; i++) {
 			Person toAdd = new Person();
 			toAdd.setName("ToAdd" + i);
 			em.persist(toAdd);

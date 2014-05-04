@@ -11,10 +11,40 @@ import de.zlvp.model.Leiter;
 import de.zlvp.model.Person;
 import de.zlvp.model.Teilnehmer;
 
-public class GruppeControllerImpl implements GruppeController {
+public class GruppeControllerImpl extends AbstractController implements GruppeController {
 
 	private GruppeDao dao;
 	private PersonDao personDao;
+
+	@Override
+	public void zuordnen(EntityInfo<Gruppe> grInfo, Collection<EntityInfo<Person>> leiter,
+			Collection<EntityInfo<Person>> teilnehmer) {
+		Gruppe gruppe = findOrCreate(Gruppe.class, dao, grInfo);
+
+		gruppe.getTeilnehmer().clear();
+		gruppe.getLeiter().clear();
+
+		for (Person p : personDao.findAll(EntityInfo.getIds(leiter))) {
+			Leiter t = new Leiter();
+			t.setPerson(p);
+			t.setGruppe(gruppe);
+			gruppe.getLeiter().add(t);
+		}
+
+		for (Person p : personDao.findAll(EntityInfo.getIds(teilnehmer))) {
+			Teilnehmer t = new Teilnehmer();
+			t.setPerson(p);
+			t.setGruppe(gruppe);
+			gruppe.getTeilnehmer().add(t);
+		}
+	}
+
+	@Override
+	public void speichern(EntityInfo<Gruppe> info, String name, String schlachtruf) {
+		Gruppe gruppe = findOrCreate(Gruppe.class, dao, info);
+		gruppe.setBezeichnung(name);
+		gruppe.setSchlachtruf(schlachtruf);
+	}
 
 	public void setDao(GruppeDao dao) {
 		this.dao = dao;
@@ -22,38 +52,6 @@ public class GruppeControllerImpl implements GruppeController {
 
 	public void setPersonDao(PersonDao personDao) {
 		this.personDao = personDao;
-	}
-
-	@Override
-	public void zuordnen(EntityInfo<Gruppe> grInfo, Collection<EntityInfo<Person>> leiter,
-			Collection<EntityInfo<Person>> teilnehmer) {
-		Gruppe gruppe = dao.findByIdAndVersion(grInfo.getId(), grInfo.getVersion());
-
-		gruppe.getTeilnehmer().clear();
-		gruppe.getLeiter().clear();
-
-		for (EntityInfo<Person> eiLeiter : leiter) {
-			Person person = personDao.findByIdAndVersion(eiLeiter.getId(), eiLeiter.getVersion());
-			Leiter t = new Leiter();
-			t.setPerson(person);
-			t.setGruppe(gruppe);
-			gruppe.getLeiter().add(t);
-		}
-
-		for (EntityInfo<Person> eiTeilnehmer : teilnehmer) {
-			Person person = personDao.findByIdAndVersion(eiTeilnehmer.getId(), eiTeilnehmer.getVersion());
-			Teilnehmer t = new Teilnehmer();
-			t.setPerson(person);
-			t.setGruppe(gruppe);
-			gruppe.getTeilnehmer().add(t);
-		}
-	}
-
-	@Override
-	public void speichern(EntityInfo<Gruppe> grInfo, String name, String schlachtruf) {
-		Gruppe gruppe = dao.findByIdAndVersion(grInfo.getId(), grInfo.getVersion());
-		gruppe.setBezeichnung(name);
-		gruppe.setSchlachtruf(schlachtruf);
 	}
 
 }

@@ -3,7 +3,6 @@ package de.zlvp.ui.navigation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
@@ -12,15 +11,16 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.sencha.gxt.core.client.ValueProvider;
+import com.sencha.gxt.data.client.loader.RpcProxy;
 import com.sencha.gxt.data.shared.ModelKeyProvider;
 import com.sencha.gxt.data.shared.TreeStore;
+import com.sencha.gxt.data.shared.event.StoreDataChangeEvent;
+import com.sencha.gxt.data.shared.event.StoreDataChangeEvent.StoreDataChangeHandler;
 import com.sencha.gxt.data.shared.loader.ChildTreeStoreBinding;
-import com.sencha.gxt.data.shared.loader.MemoryProxy;
 import com.sencha.gxt.data.shared.loader.TreeLoader;
 import com.sencha.gxt.widget.core.client.menu.Menu;
 import com.sencha.gxt.widget.core.client.tree.Tree;
 
-import de.zlvp.control.ZlvpController;
 import de.zlvp.control.ZlvpControllerAsync;
 import de.zlvp.model.AbstractEntity;
 import de.zlvp.model.BaseEntity;
@@ -30,6 +30,7 @@ import de.zlvp.model.Lager;
 import de.zlvp.model.Leiter;
 import de.zlvp.model.Person;
 import de.zlvp.model.Teilnehmer;
+import de.zlvp.ui.ControllerFactory;
 import de.zlvp.ui.bus.ReloadTreeEvent;
 import de.zlvp.ui.bus.ReloadTreeEventHandler;
 import de.zlvp.ui.bus.ZlvpEventBus;
@@ -37,20 +38,30 @@ import de.zlvp.ui.handler.TreeContextMenuHandler;
 
 public class NavigationTree implements IsWidget {
 
-	public ZlvpControllerAsync controller = GWT.create(ZlvpController.class);
+	public static final ZlvpControllerAsync controller = ControllerFactory.getZlvpController();
 
 	interface NavigationTreeUiBinder extends UiBinder<Widget, NavigationTree> {
 	}
 
 	private static NavigationTreeUiBinder uiBinder = GWT.create(NavigationTreeUiBinder.class);
 
-	final MemoryProxy<TreeNode, List<TreeNode>> p = new MemoryProxy<TreeNode, List<TreeNode>>(null) {
+	final RpcProxy<TreeNode, List<TreeNode>> p = new RpcProxy<NavigationTree.TreeNode, List<TreeNode>>() {
 		@Override
-		public void load(TreeNode parent, Callback<List<TreeNode>, Throwable> callback) {
-			if (parent != null) {
-				callback.onSuccess(parent.getChildren());
+		public void load(final TreeNode loadConfig, final AsyncCallback<List<TreeNode>> callback) {
+			if (loadConfig == null) {
+				controller.getJahre(new AsyncCallback<List<Jahr>>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						System.out.println(caught);
+					}
+
+					@Override
+					public void onSuccess(List<Jahr> result) {
+						callback.onSuccess(new TreeModel(result).getNodes());
+					}
+				});
 			} else {
-				super.load(parent, callback);
+				callback.onSuccess(loadConfig.getChildren());
 			}
 		}
 	};
@@ -97,22 +108,29 @@ public class NavigationTree implements IsWidget {
 
 	public NavigationTree() {
 		uiBinder.createAndBindUi(this);
-		controller.getJahre(new AsyncCallback<List<Jahr>>() {
-			@Override
-			public void onSuccess(List<Jahr> result) {
-				p.setData(new TreeModel(result).getNodes());
-				loader.addLoadHandler(new ChildTreeStoreBinding<TreeNode>(store));
-				loader.load();
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-		});
 		tree.setLoader(loader);
 
 		tree.setContextMenu(new Menu());
 		tree.addBeforeShowContextMenuHandler(new TreeContextMenuHandler(tree));
+		tree.setAutoLoad(true);
+
+		loader.addLoadHandler(new ChildTreeStoreBinding<TreeNode>(store));
+
+		store.addStoreDataChangeHandler(new StoreDataChangeHandler<NavigationTree.TreeNode>() {
+
+			@Override
+			public void onDataChange(StoreDataChangeEvent<TreeNode> event) {
+				final TreeNode selectedItem = tree.getSelectionModel().getSelectedItem();
+				if (selectedItem != null) {
+					if (event.getParent() != null && selectedItem.getKey().equals(event.getParent().getKey())) {
+						tree.getSelectionModel().select(event.getParent(), false);
+					}
+					if (event.getParent() == null) {
+						tree.setExpanded(selectedItem, true);
+					}
+				}
+			}
+		});
 
 		ZlvpEventBus.get().addHandler(ReloadTreeEvent.getType(), new ReloadTreeEventHandler() {
 			@Override
@@ -123,24 +141,7 @@ public class NavigationTree implements IsWidget {
 	}
 
 	public void reload() {
-		controller.getJahre(new AsyncCallback<List<Jahr>>() {
-			@Override
-			public void onSuccess(List<Jahr> result) {
-				TreeNode selectedItem = tree.getSelectionModel().getSelectedItem();
-
-				p.setData(new TreeModel(result).getNodes());
-				loader.load();
-				tree.expandAll();
-				tree.collapseAll();
-				tree.setExpanded(selectedItem, true);
-				tree.getSelectionModel().select(false, selectedItem);
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-		});
-
+		loader.load(null);
 	}
 
 	@Override
@@ -149,6 +150,7 @@ public class NavigationTree implements IsWidget {
 	}
 
 	public void setSelectionModel(NavigationTreeSelectionModel<TreeNode> selectionModel) {
+		selectionModel.bindTree(tree);
 		tree.setSelectionModel(selectionModel);
 	}
 
@@ -207,10 +209,20 @@ public class NavigationTree implements IsWidget {
 				children.add(teilnehmerNode);
 
 				for (Leiter l : g.getLeiter()) {
-					leiterNode.getChildren().add(new TreeNode(l.getPerson()));
+					leiterNode.getChildren().add(new TreeNode(l.getPerson()) {
+						@Override
+						public String getKey() {
+							return "Leiter" + super.entity.toString();
+						}
+					});
 				}
 				for (Teilnehmer t : g.getTeilnehmer()) {
-					teilnehmerNode.getChildren().add(new TreeNode(t.getPerson()));
+					teilnehmerNode.getChildren().add(new TreeNode(t.getPerson()) {
+						@Override
+						public String getKey() {
+							return "Teilnehmer" + super.entity.toString();
+						}
+					});
 				}
 			}
 		}
